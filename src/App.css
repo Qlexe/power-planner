@@ -1,38 +1,285 @@
-.App {
+/* App.css */
+body {
+  background: #666565
+}
+
+/* Main planner styles */
+.Planner {
+  background: #FFF;
+}
+
+/* Header styles */
+.Planner_header {
+  /* Your styles here */
+  border-top-left-radius: 60px;
+  border-top-right-radius: 60px;
+  background: linear-gradient(180deg, #67D5B1 0%, #38D4A1 100%);
+  display: flex;
+  height: 144px;
+  padding: 47px 0px 48px 0px;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.Planner_header-title {
+  /* Your styles here */
+  color: #FFF;
   text-align: center;
+  font-family: Montserrat;
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: -0.8px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.Planner_body {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+table {
+  width: 1145px;
+  margin-left: 47px;
+  margin-right: 47px;
+  border-spacing: 0cap;
+  border-collapse: collapse;
+  align-self: flex-start;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+thead {
+  border-bottom: 1px solid #D9D9D9;
+  padding-left: 47px;
+  padding-right: 47px;
+}
+
+
+thead>th {
+  height: 88px;
+  justify-content: center;
+  padding: 0px 42px;
+  color: #666;
+  font-family: Montserrat;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: -0.36px;
+}
+
+tbody {
+  padding-left: 47px;
+  padding-right: 47px;
+}
+
+/* add tr */
+tbody>tr>td {
+  border: 0.8px solid #E6E6E6;
+  width: 150px;
+  height: 150px;
+}
+
+.day_cell {
+  background: #FAFAFA;
+  height: 100%;
   display: flex;
   flex-direction: column;
+}
+
+.day_cell>.weekend {
+  color: #66666680;
+}
+
+.day_weather-icon {
+  display: flex;
+  justify-content: space-between;
+  margin: 9px 10px 9px 16px;
+  color: #080808;
+  font-family: Montserrat;
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: -0.48px;
+}
+
+.day_weather-icon>button {
+  border: none;
+  background-color: transparent;
+}
+
+.day_weather-icon {}
+
+.events {
+  margin-top: 8px;
+  margin-left: 8px;
+  margin-right: 8px;
+  color: #666;
+  font-family: Montserrat;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: -0.2px;
+}
+
+.monthly_planner {
+  margin-left: 5px;
+  margin-top: 18px;
+  width: 662px;
+  background: #FAFAFA;
+  padding: 16px;
+  border-radius: 20px;
+}
+
+.card {
+  display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  margin-bottom: 16px;
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid #E5E5E5;
+  background: #FFF;
 }
 
-.App-link {
-  color: #61dafb;
+.current_week,
+.current_day {
+  width: 100px;
+  height: 100px;
+  flex-shrink: 0;
+  margin: 37px 32px 37px 16px;
+
+  border-radius: 24px;
+  border: 2px solid #E6E6E6;
+  /* display: flex;
+  flex-direction: column;
+  justify-content: space-between; */
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.month {
+  padding: 8px 28px;
+  background: linear-gradient(180deg, #FF7437 0%, #DC4F11 97.58%);
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  color: #FFF;
+  text-align: center;
+  font-family: Montserrat;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: -0.36px;
 }
+
+.days {
+  margin: 12px 0px;
+  color: #323232;
+  text-align: center;
+  font-family: Montserrat;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.write-note {
+  margin-right: 32px;
+  width: 100%;
+}
+
+.write-note > textarea {
+  margin-top: 16px;
+  margin-bottom: 16px;
+  height: 100%;
+  width: 100%;
+  border-radius: 5px;
+  background-color: #f8f8f8;
+  border-color: #ffead6;
+  padding: 5px;
+}
+
+.current_day {}
+
+.planned-tasks {}
+
+.task {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  padding: 4px;
+  height: 24px;
+}
+
+.task>button {
+  background-color: transparent;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  border: 3px solid #323232;
+  border-radius: 20%;
+}
+
+.task>button:hover {
+  background-color: #323232;
+}
+
+.task>button:active {
+  background-color: #5c5b5b;
+  border-color: #5c5b5b;
+}
+
+.task>span {
+  margin-left: 8px;
+  color: #666666B2;
+}
+
+.task>p {
+  margin-left: 8px;
+}
+
+.card>.icon {
+  display: flex;
+  justify-content: center; /* Центрування по горизонталі */
+  align-items: center;
+  width: 100px;
+  height: 100px;
+  flex-shrink: 0;
+  margin: 37px 32px 37px 16px;
+
+  border-radius: 24px;
+  border: 2px solid rgba(244, 104, 43, 0.50);
+  background: rgba(241, 101, 40, 0.10);
+}
+
+/* Сховати стандартний чекбокс*/
+/* .custom-checkbox input[type="checkbox"] {
+  display: none;
+} */
+
+/* Стилізація зовнішнього вигляду кастомного чекбокса */
+/* .custom-checkbox .checkmark {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  position: relative;
+  cursor: pointer;
+  border: 3px solid #323232;
+  border-radius: 20%;
+} */
+
+/* Стилізація галочки усередині кастомного чекбокса */
+/* .custom-checkbox input[type="checkbox"]:checked + .checkmark::after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 2px;
+  width: 24px;
+  height: 24px;
+  border: solid white;
+  border-width: 0 2px 2px 0; */
+/* transform: rotate(45deg); */
+/* } */
+
+/* Змінити колір фону кастомного чекбокса при виборі */
+/* .custom-checkbox input[type="checkbox"]:checked + .checkmark {
+  background-color: #007bff;
+  border-color: #007bff;
+}  */
