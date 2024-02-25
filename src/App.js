@@ -450,7 +450,7 @@ function App() {
     <div className="Planner">
       <div className="Planner_header">
         <div className="Planner_header-title">
-          🌸 {yearMonths[selectedMonth] + " " + selectedYear} 🌼
+        {"📅 " + yearMonths[selectedMonth] + " " + selectedYear + " 📅"}  
         </div>
       </div>
       <div className="Planner_body">
