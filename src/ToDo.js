@@ -1,3 +1,4 @@
+import AddEventForm from "./AddEventForm";
 export default function PlannerActions({
   CreateItem,
   onClickChangeChecked,
@@ -30,12 +31,12 @@ export default function PlannerActions({
   lastDayOfWeek.setDate(currentDate.getDate() + lastDayDiff);
 
   function formatDate(isoString) {
-    const dateParts = isoString.split("-"); // Розділяємо рядок на частини
+    const dateParts = isoString.split("-");
     const year = dateParts[0];
     const month = dateParts[1];
     const day = dateParts[2];
 
-    return `${day}.${month}.${year}`; // Формуємо новий рядок у потрібному форматі
+    return `${day}.${month}.${year}`;
   }
 
   function CategorizedCards() {
@@ -99,32 +100,32 @@ export default function PlannerActions({
   return (
     <div className="Planner_body-monthly_planner">
       <div className="card">
-        <div className="current_week">
-          <div className="month">{yearMonthsShort[selectedMonth]}</div>
-          <div className="days">
-            {currentDate.getDate() + ` ${weeksDay[dayOfWeek]}`}
-          </div>
-        </div>
-        <div className="write-item">
-          <textarea
-            rows="8"
-            onKeyDown={(e) => {
-              if (e.key === "Enter" && e.shiftKey === false) {
-                CreateItem(e.target.value);
-              }
-            }}
-          ></textarea>
-          <button
-            className="mobile-only"
-            type="submit"
-            onClick={() =>
-              CreateItem(document.querySelector(".write-item textarea").value)
-            }
-          >
-            +
-          </button>
-        </div>
-      </div>
+<div className="current_week">
+  <div className="month">{yearMonthsShort[selectedMonth]}</div>
+  <div className="days">
+    {currentDate.getDate() + ` ${weeksDay[dayOfWeek]}`}
+  </div>
+</div>
+<div className="write-item">
+  <textarea
+    rows="8"
+    onKeyDown={(e) => {
+      if (e.key === "Enter" && e.shiftKey === false) {
+        CreateItem(e.target.value);
+      }
+    }}
+  ></textarea>
+  <button
+    className="mobile-only"
+    type="submit"
+    onClick={() =>
+      CreateItem(document.querySelector(".write-item textarea").value)
+    }
+  >
+    +
+  </button>
+</div>
+</div>
 
       <div className="card">
         <div className="current_day">
