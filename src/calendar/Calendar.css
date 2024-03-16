@@ -1,0 +1,95 @@
+/* /////////////////////////////////////// Calendar styles */
+.Calendar_body {
+    width: 1045px;
+    margin-left: 47px;
+    margin-right: 47px;
+    border-spacing: 0cap;
+    border-collapse: collapse;
+    align-self: flex-start;
+  }
+  
+  thead {
+    border-bottom: 1px solid #d9d9d9;
+    padding-left: 47px;
+    padding-right: 47px;
+  }
+  
+  thead > tr > th {
+    height: 88px;
+    justify-content: center;
+    padding: 0px 42px;
+    color: #666;
+    font-family: Montserrat;
+    font-size: 18px;
+    font-weight: 400;
+    letter-spacing: -0.36px;
+  }
+  
+  tbody {
+    padding-left: 47px;
+    padding-right: 47px;
+  }
+  
+  tbody > tr > td {
+    border: 0.8px solid #e6e6e6;
+    width: 140px;
+    height: 140px;
+  }
+  
+  .day_cell {
+    background: #fafafa;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .day_cell_current {
+    background: #e4e3e3;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .day_cell > .header {
+    display: flex;
+    justify-content: space-between;
+    margin: 9px 10px 9px 16px;
+    color: #080808;
+    font-family: Montserrat;
+    font-size: 24px;
+    font-weight: 500;
+    letter-spacing: -0.48px;
+  }
+  .day_cell > .header_weekend {
+    color: #66666680;
+  }
+  .day_cell > .header > button {
+    display: flex;
+    flex-direction: row-reverse;
+    border: none;
+    background-color: transparent;
+    padding: 0;
+  }
+  
+  .events {
+    margin: auto 8px 10px 8px;
+    color: #666;
+    font-family: Montserrat;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: -0.2px;
+  }
+
+  .event {
+    display: flex;
+    margin-top: 2px;
+  }
+
+  .event > img {
+    margin-right: 4px;
+    width: 16px;
+  }
+
+  .event-title {
+    margin-top: 2px;
+  }

@@ -1,6 +1,6 @@
-export default function DayCell({ key, isCurrentDay, isWeekendDay, day, hidden, events }) {
+export default function DayCell({ isCurrentDay, isWeekendDay, day, hidden, events }) {
     return (
-      <td key={key} id={day}>
+      <td id={day}>
         {hidden ? null : (
           <div
             className={"day_cell " + (isCurrentDay ? "day_cell_current" : null)}

@@ -1,13 +1,16 @@
-import AddEventForm from "./AddEventForm";
-export default function PlannerActions({
-  CreateItem,
-  onClickChangeChecked,
-  selectedMonth,
-  selectedYear,
-  currentDate,
-  actionItems,
-}) {
-    const yearMonthsShort = [
+import './ToDo.css';
+import AddEventForm from "./AddEventFormCard";
+import ShowCurrentWeekEventsCard from "./ShowCurrentWeekEventsCard";
+export default function PlannerActions(props) {
+  const {
+    setActionItems,
+    onClickChangeChecked,
+    selectedMonth,
+    selectedYear,
+    currentDate,
+    actionItems,
+  } = props;
+  const yearMonthsShort = [
     "Січ",
     "Лют",
     "Бер",
@@ -42,7 +45,7 @@ export default function PlannerActions({
   function CategorizedCards() {
     const findAllUniqueCategories = (actionItems) => {
       if (!Array.isArray(actionItems)) {
-        throw new Error("Параметр має бути масивом об’єктів");
+        throw new Error("It isn't array of objects");
       }
 
       const uniqueCategories = [
@@ -98,77 +101,26 @@ export default function PlannerActions({
   }
 
   return (
-    <div className="Planner_body-monthly_planner">
-      <div className="card">
-<div className="current_week">
-  <div className="month">{yearMonthsShort[selectedMonth]}</div>
-  <div className="days">
-    {currentDate.getDate() + ` ${weeksDay[dayOfWeek]}`}
-  </div>
-</div>
-<div className="write-item">
-  <textarea
-    rows="8"
-    onKeyDown={(e) => {
-      if (e.key === "Enter" && e.shiftKey === false) {
-        CreateItem(e.target.value);
-      }
-    }}
-  ></textarea>
-  <button
-    className="mobile-only"
-    type="submit"
-    onClick={() =>
-      CreateItem(document.querySelector(".write-item textarea").value)
-    }
-  >
-    +
-  </button>
-</div>
-</div>
-
-      <div className="card">
-        <div className="current_day">
-          <div className="month">{yearMonthsShort[selectedMonth]}</div>
-          <div className="days">
-            {firstDayOfWeek.getDate() + " - " + lastDayOfWeek.getDate()}
-          </div>
-        </div>
-        <div className="planned-items">
-          {actionItems
-            .sort(
-              (a, b) =>
-                new Date(a.endDate).getDate() - new Date(b.endDate).getDate()
-            )
-            .sort((a, b) => a.isChecked - b.isChecked)
-            .slice(0, 6)
-            .map((item) => (
-              <div className="item">
-                <button
-                  className={"checkbox " + (item.isChecked && "checked")}
-                  onClick={() => onClickChangeChecked(item.id)}
-                ></button>
-                {item.endDate ? (
-                  <span className="time">
-                    {/* {console.log(currentDate + " - " + new Date(item.endDate))} */}
-                    {Math.ceil(
-                      (new Date(item.endDate) - currentDate) /
-                        (1000 * 60 * 60 * 24)
-                    )}
-                  </span>
-                ) : null}
-                {item.isChecked ? (
-                  <p>
-                    <del>{item.title}</del>
-                  </p>
-                ) : (
-                  <p>{item.title}</p>
-                )}
-                <span className="created">{formatDate(item.createDate)}</span>
-              </div>
-            ))}
-        </div>
-      </div>
+    <div className="ToDo_body">
+      <AddEventForm
+      actionItems={actionItems}
+        setActionItems={setActionItems}
+        yearMonthsShort={yearMonthsShort}
+        weeksDay={weeksDay}
+        dayOfWeek={dayOfWeek}
+        currentDate={currentDate}
+        selectedMonth={selectedMonth}
+      />
+      <ShowCurrentWeekEventsCard
+        yearMonthsShort={yearMonthsShort}
+        selectedMonth={selectedMonth}
+        firstDayOfWeek={firstDayOfWeek}
+        lastDayOfWeek={lastDayOfWeek}
+        actionItems={actionItems}
+        onClickChangeChecked={onClickChangeChecked}
+        currentDate={currentDate}
+        formatDate={formatDate}
+      />
       <CategorizedCards />
     </div>
   );
