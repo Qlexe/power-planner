@@ -3,6 +3,19 @@ body {
   background: #ffffff;
 }
 
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.Planner {
+  animation: fade-in 1s;
+}
+
 .Planner_header {
   border-top-left-radius: 30px;
   border-top-right-radius: 30px;
@@ -24,4 +37,10 @@ body {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+}
+
+.Planner_footer {
+  display: flex;
+  justify-content: center;
+  padding: 20px 0px 20px 0px;
 }

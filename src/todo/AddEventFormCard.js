@@ -165,6 +165,7 @@ export default function AddEventForm({
               CreateItem(e.target.value);
             }
           }}
+          autoFocus
         ></textarea>
         <button
           className="mobile-only"

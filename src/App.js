@@ -65,6 +65,9 @@ function App() {
           actionItems={actionItems}
         />
       </div>
+      <div className="Planner_footer">
+        <a target="_blank" href="https://www.figma.com/community/file/975167773224171276/2021-calendar-and-planner-template?searchSessionId=lua0dce2-f26ln538n7f">Design</a>
+      </div>
     </div>
   );
 }
