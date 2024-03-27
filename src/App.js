@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./App.css";
 import Calendar from "./calendar/Calendar";
 import ToDo from "./todo/ToDo";
-import "./weather/Weather";
+import "./weather/Weather"; // in developing
 
 function App() {
   const [actionItems, setActionItems] = useState(
