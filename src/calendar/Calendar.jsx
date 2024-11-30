@@ -1,7 +1,7 @@
 import moment from "moment";
 import "./Calendar.css";
 
-import DayCell from "./Cell";
+import DayCell from "./Cell.jsx";
 
 export default function Calendar(props) {
   const { selectedYear, selectedMonth, currentDate, actionItems } = props;
@@ -30,20 +30,19 @@ export default function Calendar(props) {
       })
       .filter((item) => {
         return (
-          moment(item.startDate).toDate() <= date 
+          moment(item.startDate).toDate() <= date
           // date <= moment(item.endDate).toDate()
         );
       })
       .slice(0, 4)
-      .map((item) => {
+      .map((item, index) => {
         return (
-          <div className="event">
-            <img src={`/img/${item.category}.png`}></img>
+          <div key={index} className="event">
+            <img src={`/img/${item.category}.png`} alt={item.category} />
             <div className="event-title">{item.title.substring(0, 17)}</div>
           </div>
         );
       });
-
     // if (tasksOnThisDay.length > 0)
     //   console.log(date, actionItems, tasksOnThisDay);
 

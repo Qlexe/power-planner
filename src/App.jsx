@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./App.css";
-import Calendar from "./calendar/Calendar";
-import ToDo from "./todo/ToDo";
+import Calendar from "./calendar/Calendar.jsx";
+import ToDo from "./todo/ToDo.jsx";
 import "./weather/Weather"; // in developing
 
 function App() {

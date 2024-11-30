@@ -1,12 +1,12 @@
-import './ToDo.css';
-import AddEventForm from "./AddEventFormCard";
-import ShowCurrentWeekEventsCard from "./ShowCurrentWeekEventsCard";
+import "./ToDo.css";
+import AddEventForm from "./AddEventFormCard.jsx";
+import ShowCurrentWeekEventsCard from "./ShowCurrentWeekEventsCard.jsx";
 export default function PlannerActions(props) {
   const {
     setActionItems,
     onClickChangeChecked,
     selectedMonth,
-    selectedYear,
+    // selectedYear,
     currentDate,
     actionItems,
   } = props;
@@ -62,13 +62,13 @@ export default function PlannerActions(props) {
     const cards = findAllUniqueCategories(actionItems).map((category) => {
       const items = actionItems.filter((item) => item.category === category);
       return (
-        <div className="card">
+        <div key={category} className="card">
           <div className={`icon ${category}`}>
             <img src={`img/${category}.png`} alt="" />
           </div>
           <div className="planned-items">
             {items.map((item) => (
-              <div className="item">
+              <div key={item.id} className="item">
                 <button
                   className={"checkbox " + (item.isChecked && "checked")}
                   onClick={() => onClickChangeChecked(item.id)}
@@ -103,7 +103,7 @@ export default function PlannerActions(props) {
   return (
     <div className="ToDo_body">
       <AddEventForm
-      actionItems={actionItems}
+        actionItems={actionItems}
         setActionItems={setActionItems}
         yearMonthsShort={yearMonthsShort}
         weeksDay={weeksDay}
