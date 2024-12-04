@@ -9,11 +9,21 @@ export default function Calendar(props) {
   let row = [];
 
   const daysInMonth = new Date(selectedYear, selectedMonth + 1, 0).getDate();
-  const firstWeekday = new Date(selectedYear, selectedMonth, 1).getDay() - 1;
+  const firstWeekday = new Date(selectedYear, selectedMonth, 1).getDay();
+  const adjustedFirstWeekday = firstWeekday === 0 ? 6 : firstWeekday - 1;
 
-  let key = 0;
-  while (row.length < firstWeekday) {
-    row.push(<DayCell key={"empty" + key++} hidden={true} />);
+  // Replace the empty cells with previous month days
+  const prevMonthDays = new Date(selectedYear, selectedMonth, 0).getDate();
+  let prevMonth = prevMonthDays - adjustedFirstWeekday + 1;
+
+  while (row.length < adjustedFirstWeekday) {
+    row.push(
+      <DayCell
+        key={"prevMonth" + prevMonth}
+        day={prevMonth++}
+        isPrevMonth={true}
+      />
+    );
   }
 
   for (let i = 1; i <= daysInMonth; i++) {
@@ -64,6 +74,7 @@ export default function Calendar(props) {
       );
     }
 
+    // add empty cells if the first row is not full
     if (row.length % 7 === 0) {
       rows.push(<tr key={"tr" + i}>{row}</tr>);
       row = [];
@@ -72,9 +83,15 @@ export default function Calendar(props) {
   if (row.length > 0) {
     rows.push(<tr key={"tr" + daysInMonth}>{row}</tr>);
 
-    let key = daysInMonth;
+    let nextMonthDay = 1;
     while (row.length % 7 !== 0) {
-      row.push(<DayCell key={"empty" + key++} hidden={true} />);
+      row.push(
+        <DayCell
+          key={"nextMonth" + nextMonthDay}
+          day={nextMonthDay++}
+          isNextMonth={true}
+        />
+      );
     }
   }
 

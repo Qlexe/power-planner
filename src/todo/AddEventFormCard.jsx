@@ -1,5 +1,3 @@
-
-
 export default function AddEventForm({
   yearMonthsShort,
   weeksDay,
@@ -7,23 +5,26 @@ export default function AddEventForm({
   currentDate,
   selectedMonth,
   actionItems,
-  setActionItems
+  setActionItems,
 }) {
 
+  // create new todo item
   function CreateItem(text) {
     text = text.trim();
     if (text === "") return;
-  
+
     if (text === "/clear") {
       localStorage.setItem("actionItems", JSON.stringify([]));
       setActionItems([]);
       return;
     }
-  
+
+    // split text by new line
     const regex = /(.*?)(\n\n)(.*)/s;
     const match = text.match(regex);
     // console.log(match);
-  
+
+    // get new id
     function findMaxId(arr) {
       let maxId = 0;
       for (let i = 0; i < arr.length; i++) {
@@ -33,13 +34,15 @@ export default function AddEventForm({
       }
       return maxId;
     }
-  
+
+    // get text category after hash
     function getTextAfterHash(text) {
       const regex = /(?<=#)[^ ]*/;
       const match = text.match(regex);
       return match ? match[0] : null;
     }
-  
+
+    // get days of week
     function getDaysOfWeek(text) {
       const regex =
         /(?<=\bпонеділок|\bвівторок|\bсереда|\bчетвер|\bп'ятниця|\bсубота|\bнеділя|\bпн|\bвт|\bср|\bчт|\bпт|\bсб|\bнд)\b/gi;
@@ -71,7 +74,8 @@ export default function AddEventForm({
         return null;
       }
     }
-  
+
+    // get start time
     function findStartTime(text) {
       function getCurrentTime() {
         function padZero(num) {
@@ -81,30 +85,33 @@ export default function AddEventForm({
         const hours = padZero(currentDate.getHours());
         const minutes = padZero(currentDate.getMinutes());
         const seconds = padZero(currentDate.getSeconds());
-  
+
         return `${hours}:${minutes}:${seconds}`;
       }
       const regex = /(?<=з\s)\d{1,2}:\d{1,2}/;
       const match = text.match(regex);
       return match ? match[0] : getCurrentTime();
     }
-  
+
+    // get end time
     function findEndTime(text) {
       const regex = /(?<=до\s|\-\s)\d{1,2}:\d{1,2}/;
       const match = text.match(regex);
       return match ? match[0] : null;
     }
-  
+
+    // get iso format date
     function convertDateToISOFormat(dateString) {
       const parts = dateString.split(".");
-  
+
       const day = parts[0].padStart(2, "0");
       const month = parts[1].padStart(2, "0");
       const year = parts[2];
-  
+
       return `${year}-${month}-${day}`;
     }
-  
+
+    // get start date
     function findStartDate(text) {
       function getCurrentDate() {
         function padZero(num) {
@@ -114,21 +121,23 @@ export default function AddEventForm({
         const year = currentDate.getFullYear();
         const month = padZero(currentDate.getMonth() + 1);
         const day = padZero(currentDate.getDate());
-  
+
         return `${year}-${month}-${day}`;
       }
-  
+
       const regex = /(?<=з\s)\d{1,2}\.\d{1,2}\.\d{4}/;
       const match = text.match(regex);
       return match ? convertDateToISOFormat(match[0]) : getCurrentDate();
     }
-  
+
+    // get end date
     function findEndDate(text) {
       const regex = /(?<=до\s|\-\s)\d{1,2}\.\d{1,2}\.\d{4}/;
       const match = text.match(regex);
       return match ? convertDateToISOFormat(match[0]) : null;
     }
-  
+
+    // create new action item
     const newActionItem = {
       id: findMaxId(actionItems) + 1,
       category: getTextAfterHash(text),
