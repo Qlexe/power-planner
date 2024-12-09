@@ -1,9 +1,11 @@
-export default function DayCell({ isCurrentDay, isWeekendDay, day, hidden, events }) {
+
+export default function DayCell({ isCurrentDay, isOtherMonth, isWeekendDay, day, hidden, events }) {
+  console.log(isOtherMonth)
     return (
       <td id={day}>
         {hidden ? null : (
           <div
-            className={"day_cell " + (isCurrentDay ? "day_cell_current" : null)}
+            className={"day_cell " + (!isOtherMonth ? "day_cell_current_month " : "day_cell_another_month ") + (isCurrentDay ? "day_cell_current_day" : null)}
           >
             <div className={"header " + (isWeekendDay ? "header_weekend" : null)}>
               <span>{day}</span>

@@ -4,80 +4,79 @@ import "./Calendar.css";
 import DayCell from "./Cell.jsx";
 
 export default function Calendar(props) {
-  const { selectedYear, selectedMonth, currentDate, actionItems } = props;
+  const { selectedYear, selectedMonth, monthColor, currentDate, actionItems } =
+    props;
+
+  const currentWeekStyle = {
+    boxShadow: `inset 0 0 5px 2px ${monthColor}`,
+    // backgroundColor: `${monthColor}`,
+  };
+
   let rows = [];
-  let row = [];
+  const TOTAL_ROWS = 5;
+  const DAYS_IN_WEEK = 7;
 
-  const daysInMonth = new Date(selectedYear, selectedMonth + 1, 0).getDate();
-  const firstWeekday = new Date(selectedYear, selectedMonth, 1).getDay() - 1;
+  // Get current week's Monday
+  const currentWeekMonday = moment(
+    new Date(selectedYear, selectedMonth, currentDate.getDate())
+  )
+    .startOf("week")
+    .add(1, "days");
 
-  let key = 0;
-  while (row.length < firstWeekday) {
-    row.push(<DayCell key={"empty" + key++} hidden={true} />);
-  }
+  // Start from previous week
+  const calendarStartDate = moment(currentWeekMonday).subtract(1, "week");
 
-  for (let i = 1; i <= daysInMonth; i++) {
-    const date = new Date(selectedYear, selectedMonth, i);
-    const dayOfWeek = date.getDay(); // 0 - 6
-    const isWeekendDay = dayOfWeek === 0 || dayOfWeek === 6;
-    const tasksOnThisDay = actionItems
-      .map((item) => {
-        item.endDate && console.log(date, moment(item.endDate).toDate());
-        return item;
-      })
-      .filter((item) => {
-        return !item.isChecked;
-      })
-      .filter((item) => {
-        return (
-          moment(item.startDate).toDate() <= date
-          // date <= moment(item.endDate).toDate()
-        );
-      })
-      .slice(0, 4)
-      .map((item, index) => {
-        return (
+  for (let weekIndex = 0; weekIndex < TOTAL_ROWS; weekIndex++) {
+    let row = [];
+
+    for (let dayIndex = 0; dayIndex < DAYS_IN_WEEK; dayIndex++) {
+      const currentDate = moment(calendarStartDate)
+        .add(weekIndex, "weeks")
+        .add(dayIndex, "days");
+
+      const day = currentDate.date();
+      const isWeekendDay = currentDate.day() === 0 || currentDate.day() === 6;
+      const isCurrentMonth = currentDate.month() === selectedMonth;
+
+      // Filter tasks for current day
+      const tasksOnThisDay = actionItems
+        .filter((item) => !item.isChecked)
+        .filter((item) => moment(item.startDate).isSameOrBefore(currentDate))
+        .slice(0, 4)
+        .map((item, index) => (
           <div key={index} className="event">
             <img src={`/img/${item.category}.png`} alt={item.category} />
             <div className="event-title">{item.title.substring(0, 17)}</div>
           </div>
-        );
-      });
-    // if (tasksOnThisDay.length > 0)
-    //   console.log(date, actionItems, tasksOnThisDay);
+        ));
 
-    if (
-      i === currentDate.getDate() &&
-      selectedMonth === currentDate.getMonth()
-    ) {
-      row.push(
-        <DayCell key={i} isCurrentDay={true} day={i} events={tasksOnThisDay} />
-      );
-    } else {
-      row.push(
+      // Create cell with appropriate properties
+      const cell = (
         <DayCell
-          key={i}
+          key={`${weekIndex}-${dayIndex}`}
+          currentWeekStyle={currentWeekStyle}
+          isCurrentDay={currentDate.isSame(new Date(), "day")}
           isWeekendDay={isWeekendDay}
-          day={i}
+          isOtherMonth={!isCurrentMonth}
+          day={day}
           events={tasksOnThisDay}
         />
       );
+
+      row.push(cell);
     }
 
-    if (row.length % 7 === 0) {
-      rows.push(<tr key={"tr" + i}>{row}</tr>);
-      row = [];
-    }
+    console.log(currentWeekStyle);
+
+    rows.push(
+      <tr
+        key={`week-${weekIndex}`}
+        style={weekIndex === 1 ? currentWeekStyle : {}}
+      >
+        {row}
+      </tr>
+    );
   }
-  if (row.length > 0) {
-    rows.push(<tr key={"tr" + daysInMonth}>{row}</tr>);
-
-    let key = daysInMonth;
-    while (row.length % 7 !== 0) {
-      row.push(<DayCell key={"empty" + key++} hidden={true} />);
-    }
-  }
-
   return (
     <table className="Calendar_body">
       <thead>

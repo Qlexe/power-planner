@@ -14,8 +14,8 @@ function App() {
     localStorage.setItem("actionItems", JSON.stringify(actionItems));
   }
   const currentDate = new Date(); // Date object // "2024-01-22T14:30:27.707Z"
-  const [selectedMonth, setSelectedMonth] = useState(currentDate.getMonth()); // 0 - 11
-  const [selectedYear, setSelectedYear] = useState(currentDate.getFullYear()); // 2024
+  const selectedMonth = currentDate.getMonth(); // 0 - 11
+  const selectedYear = currentDate.getFullYear(); // 2024
   const yearMonths = [
     "Січень",
     "Лютий",
@@ -31,6 +31,29 @@ function App() {
     "Грудень",
   ];
 
+  const monthNames = [
+    "january",
+    "february",
+    "march",
+    "april",
+    "may",
+    "june",
+    "july",
+    "august",
+    "september",
+    "october",
+    "november",
+    "december",
+  ];
+
+  const currentMonth = new Date().getMonth(); // 0-11
+  const nextMonth = (currentMonth + 1) % 12;
+
+  const headerStyle = {
+    // backgroundColor: `var(--${monthNames[currentMonth]})`,
+    backgroundImage: `linear-gradient(180deg, var(--${monthNames[currentMonth]}) 00%, var(--${monthNames[nextMonth]}) 100%)`,
+  };
+
   function onClickChangeChecked(id) {
     const newActionItems = actionItems.map((item) => {
       if (item.id === id) {
@@ -44,15 +67,22 @@ function App() {
 
   return (
     <div className="Planner">
-      <div className="Planner_header">
+      <div className={`Planner_header`} style={headerStyle}>
         <div className="Planner_header-title">
-          {"📅 " + yearMonths[selectedMonth] + " " + selectedYear + " 📅"}
+          {"📅 " +
+            currentDate.getDate() +
+            " " +
+            yearMonths[selectedMonth] +
+            " " +
+            selectedYear +
+            " 📅"}
         </div>
       </div>
       <div className="Planner_body">
         <Calendar
           selectedYear={selectedYear}
           selectedMonth={selectedMonth}
+          monthColor={`var(--${monthNames[currentMonth]})`}
           currentDate={currentDate}
           actionItems={actionItems}
         />
@@ -66,7 +96,12 @@ function App() {
         />
       </div>
       <div className="Planner_footer">
-        <a target="_blank" href="https://www.figma.com/community/file/975167773224171276/2021-calendar-and-planner-template?searchSessionId=lua0dce2-f26ln538n7f">Design</a>
+        <a
+          target="_blank"
+          href="https://www.figma.com/community/file/975167773224171276/2021-calendar-and-planner-template?searchSessionId=lua0dce2-f26ln538n7f"
+        >
+          Design
+        </a>
       </div>
     </div>
   );
