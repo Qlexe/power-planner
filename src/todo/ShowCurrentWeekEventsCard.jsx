@@ -31,9 +31,9 @@ export default function ShowCurrentWeekEventsCard(props) {
               new Date(a.endDate).getDate() - new Date(b.endDate).getDate()
           )
           .sort((a, b) => a.isChecked - b.isChecked)
-          .slice(0, 6)
+          .slice(0, 8)
           .map((item) => (
-            <div className="item">
+            <div className="item" key={item.id}>
               <button
                 className={"checkbox " + (item.isChecked && "checked")}
                 onClick={() => onClickChangeChecked(item.id)}
@@ -56,8 +56,7 @@ export default function ShowCurrentWeekEventsCard(props) {
               )}
               <span className="created">{formatDate(item.createDate)}</span>
             </div>
-          ))}
-      </div>
+          ))}      </div>
     </div>
   );
 }
