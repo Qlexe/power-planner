@@ -1,3 +1,4 @@
+import coffee from "../assets/img/coffee.gif";
 export default function ShowCurrentWeekEventsCard(props) {
   const {
     yearMonthsShort,
@@ -9,6 +10,7 @@ export default function ShowCurrentWeekEventsCard(props) {
     currentDate,
     formatDate,
   } = props;
+
   return (
     <div className="card">
       <div className="current_day">
@@ -40,7 +42,6 @@ export default function ShowCurrentWeekEventsCard(props) {
               ></button>
               {item.endDate ? (
                 <span className="time">
-                  {/* {console.log(currentDate + " - " + new Date(item.endDate))} */}
                   {Math.ceil(
                     (new Date(item.endDate) - currentDate) /
                       (1000 * 60 * 60 * 24)
@@ -56,7 +57,13 @@ export default function ShowCurrentWeekEventsCard(props) {
               )}
               <span className="created">{formatDate(item.createDate)}</span>
             </div>
-          ))}      </div>
+          ))}
+        {actionItems.length === 0 && (
+          <div className="coffee-container">
+            <img src={coffee} alt="Coffee animation" className="coffee-gif" />
+          </div>
+        )}
+      </div>
     </div>
   );
 }

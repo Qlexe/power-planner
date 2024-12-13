@@ -1,6 +1,5 @@
 
 export default function DayCell({ isCurrentDay, isOtherMonth, isWeekendDay, day, hidden, events }) {
-  console.log(isOtherMonth)
     return (
       <td id={day}>
         {hidden ? null : (

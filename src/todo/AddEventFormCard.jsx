@@ -1,10 +1,14 @@
 /* eslint-disable no-useless-escape */
 import "./ToDo.css";
+import moment from "moment";
 
 import regular from "../assets/img/regular.svg";
 import check from "../assets/img/check.svg";
-import date from "../assets/img/calendar.svg";
+// import date from "../assets/img/calendar.svg";
 import tag from "../assets/img/tag.svg";
+import add from "../assets/img/add.svg";
+import error from "../assets/img/error.svg";
+
 import { useState } from "react";
 export default function AddEventForm({
   yearMonthsShort,
@@ -15,6 +19,32 @@ export default function AddEventForm({
   actionItems,
   setActionItems,
 }) {
+  const [activeView, setActiveView] = useState("list");
+  const [isRegular, setIsRegular] = useState(false);
+  const [selectedDays, setSelectedDays] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [showCategories, setShowCategories] = useState(false);
+
+  const [selectedDate, setSelectedDate] = useState(
+    moment().format("YYYY-MM-DD")
+  );
+
+  const toggleDay = (dayIndex) => {
+    setSelectedDays((prev) =>
+      prev.includes(dayIndex)
+        ? prev.filter((d) => d !== dayIndex)
+        : [...prev, dayIndex]
+    );
+  };
+  const toggleCategory = (dayIndex) => {
+    setSelectedCategories((prev) =>
+      prev.includes(dayIndex)
+        ? prev.filter((d) => d !== dayIndex)
+        : [...prev, dayIndex]
+    );
+    console.log(selectedCategories + Boolean(selectedCategories));
+  };
+
   function CreateItem(text) {
     text = text.trim();
     if (text === "") return;
@@ -27,7 +57,6 @@ export default function AddEventForm({
 
     const regex = /(.*?)(\n\n)(.*)/s;
     const match = text.match(regex);
-    // console.log(match);
 
     function findMaxId(arr) {
       let maxId = 0;
@@ -142,27 +171,37 @@ export default function AddEventForm({
       return match ? convertDateToISOFormat(match[0]) : null;
     }
 
+    console.log("category = " + getTextAfterHash(text));
+    console.log("title = " + (match ? match[1] : text.substring(0, 20)));
+    console.log("description = " + (match ? match[3] : text));
+    console.log("daysOfWeek = " + getDaysOfWeek(text));
+    console.log("startTime = " + findStartTime(text));
+    console.log("endTime = " + findEndTime(text));
+    console.log("startDate = " + findStartDate(text));
+    console.log("endDate = " + findEndDate(text));
+    console.log("createDate = " + new Date().toISOString().split("T")[0]);
+    console.log("isChecked = " + false);
+    console.log("isRegular = " + isRegular);
+
     const newActionItem = {
       id: findMaxId(actionItems) + 1,
-      category: getTextAfterHash(text),
+      category: selectedCategories ?? getTextAfterHash(text) ?? null,
       title: match ? match[1] : text.substring(0, 20),
       description: match ? match[3] : text,
-      isChecked: false,
-      isRegular: false,
       daysOfMonth: [2, 7, 16, 20, 30],
-      daysOfWeek: getDaysOfWeek(text),
+      daysOfWeek: selectedDays ?? getDaysOfWeek(text) ?? null,
       startTime: findStartTime(text),
       endTime: findEndTime(text),
-      startDate: findStartDate(text),
+      startDate: selectedDate ?? findStartDate(text) ?? null,
       endDate: findEndDate(text),
-      createDate: new Date().toISOString().split("T")[0],
+      createDate: moment().format("YYYY-MM-DD"),
+      isChecked: false,
+      isRegular: isRegular,
     };
     setActionItems([...actionItems, newActionItem]);
     localStorage.setItem("actionItems", JSON.stringify(actionItems));
-    document.querySelector(".write-item textarea").value = "";
+    document.querySelector(".write-item textarea").value = null;
   }
-
-  const [activeView, setActiveView] = useState("list");
 
   return (
     <div className="card">
@@ -199,7 +238,10 @@ export default function AddEventForm({
               className={`toggle-button ${
                 activeView === "list" ? "active" : ""
               }`}
-              onClick={() => setActiveView("list")}
+              onClick={() => {
+                setActiveView("list");
+                setIsRegular(false);
+              }}
             >
               <img src={check} alt="" />
             </button>
@@ -207,18 +249,85 @@ export default function AddEventForm({
               className={`toggle-button ${
                 activeView === "calendar" ? "active" : ""
               }`}
-              onClick={() => setActiveView("calendar")}
+              onClick={() => {
+                setActiveView("calendar");
+                setIsRegular(true);
+              }}
             >
               <img src={regular} alt="" />
             </button>
           </div>
-          <button className="category">
-            <img src={tag} alt="" />
-          </button>
           <div className="date_input">
-            <img src={date} alt="" />
-            <input type="date" name="" id="" />
+            {!isRegular ? (
+              <input
+                type="date"
+                value={selectedDate}
+                onChange={(e) => setSelectedDate(e.target.value)}
+                name="event-date"
+                id="event-date"
+              />
+            ) : (
+              <div className="weekday-selector">
+                {["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Нд"].map(
+                  (day, index) => (
+                    <button
+                      key={index}
+                      className={selectedDays.includes(index) ? "selected" : ""}
+                      onClick={() => toggleDay(index)}
+                    >
+                      {day}
+                    </button>
+                  )
+                )}
+              </div>
+            )}
           </div>
+          {!showCategories ? (
+            <>
+              <button
+                className="category"
+                onClick={() => setShowCategories(true)}
+              >
+                <img src={tag} alt="" />
+              </button>
+              {console.log(selectedCategories)}
+              {selectedCategories.length > 0 ? (
+                <img
+                  style={{
+                    position: "absolute",
+                    right: -5,
+                    top: -5,
+                    width: "15px",
+                  }}
+                  src={add}
+                />
+              ) : null}
+            </>
+          ) : (
+            <>
+              <div className="category category-active">
+                {["Дослідження", "Навчання", "Здоров'я"].map((day, index) => (
+                  <button
+                    key={index}
+                    className={
+                      selectedCategories.includes(index) ? "selected" : ""
+                    }
+                    onClick={() => toggleCategory(index)}
+                  >
+                    {day}
+                  </button>
+                ))}
+              </div>
+              {
+                <button
+                  className="category"
+                  onClick={() => setShowCategories(false)}
+                >
+                  <img src={error} alt="" />
+                </button>
+              }
+            </>
+          )}
         </div>
       </div>
     </div>

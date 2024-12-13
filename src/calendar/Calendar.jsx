@@ -66,7 +66,6 @@ export default function Calendar(props) {
       row.push(cell);
     }
 
-    console.log(currentWeekStyle);
 
     rows.push(
       <tr

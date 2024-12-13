@@ -75,7 +75,6 @@ export default function PlannerActions(props) {
                 ></button>
                 {item.endDate ? (
                   <span className="time">
-                    {/* {console.log(currentDate + " - " + new Date(item.endDate))} */}
                     {Math.ceil(
                       (new Date(item.endDate) - currentDate) /
                         (1000 * 60 * 60 * 24)
